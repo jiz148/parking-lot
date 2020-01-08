@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE_INPUT="$1"
+
+echo $FILE
+python3 parking_lot/parking_lot.py $1

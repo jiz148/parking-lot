@@ -1,0 +1,37 @@
+
+Created a parking lot with 6 slots
+self.parking_lot.park("KA-01-HH-1234", "White")
+Allocated slot number: 1
+self.parking_lot.park("KA-01-HH-9999", "White")
+Allocated slot number: 2
+self.parking_lot.park("KA-01-BB-0001", "Black")
+Allocated slot number: 3
+self.parking_lot.park("KA-01-HH-7777", "Red")
+Allocated slot number: 4
+self.parking_lot.park("KA-01-HH-2701", "Blue")
+Allocated slot number: 5
+self.parking_lot.park("KA-01-HH-3141", "Black")
+Allocated slot number: 6
+self.parking_lot.leave("4")
+Slot number 4 is free
+self.parking_lot.status()
+Slot No. Registration No Colour
+
+1 KA-01-HH-1234 White
+2 KA-01-HH-9999 White
+3 KA-01-BB-0001 Black
+5 KA-01-HH-2701 Blue
+6 KA-01-HH-3141 Black
+self.parking_lot.park("KA-01-PP-3333", "White")
+Allocated slot number: 4
+self.parking_lot.park("DL-12-AA-9999", "White")
+Sorry, parking lot is full.
+
+self.parking_lot.registration_numbers_for_cars_with_colour("White")
+KA-01-HH-1234, KA-01-HH-9999, KA-01-PP-3333
+self.parking_lot.slot_numbers_for_cars_with_colour("White")
+1, 2, 4
+self.parking_lot.slot_number_for_registration_number("KA-01-HH-3141")
+6
+self.parking_lot.slot_number_for_registration_number("MH-04-AY-1111")
+Not found

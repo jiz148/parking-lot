@@ -42,21 +42,21 @@ class TestParkingLot(unittest.TestCase):
             returned = parking_lot.is_full()
             self.assertEqual(expected, returned)
 
-    def test_leave_car(self):
+    def test_leave(self):
         """
-        test parking_lot.common.parking_lot :: ParkingLot :: leave_car
+        test parking_lot.common.parking_lot :: ParkingLot :: leave
         """
         tests = [self.example_car, 'car', 1, 1.5, int, None]
         tests_slot_nums = [1, 2, 3, 4, 5, 6]
         for test, tests_slot_num in zip(tests, tests_slot_nums):
             parking_lot = self._create_parking_lot()
             parking_lot._car_list = [test] * self.example_size
-            parking_lot.leave_car(tests_slot_num)
+            parking_lot.leave(tests_slot_num)
             self.assertIsNone(parking_lot._car_list[tests_slot_num - 1])
 
-    def test_park_car(self):
+    def test_park(self):
         """
-        test parking_lot.common.parking_lot :: ParkingLot :: park_car
+        test parking_lot.common.parking_lot :: ParkingLot :: park
         """
         tests = [{
             'car_list': self._create_car_list([0, 1, 2]),
@@ -77,7 +77,7 @@ class TestParkingLot(unittest.TestCase):
         for test in tests:
             parking_lot = self._create_parking_lot()
             parking_lot._car_list = test.get('car_list')
-            parking_lot.park_car(self.example_different_car_id, self.example_different_car_colour)
+            parking_lot.park(self.example_different_car_id, self.example_different_car_colour)
             spot = test.get('spot')
             if spot is not None:
                 self.assertEqual(self.example_different_car_id, parking_lot._car_list[spot].get_plate_number())

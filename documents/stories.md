@@ -52,3 +52,9 @@
 * acceptance criteria:
   - should have parking_lot.py for non-interactive program
   - should have parking script to call parking_lot.py with parameters
+  - should file_inputs.txt
+
+### Documentation
+* time: 0.5h
+* acceptance criteria:
+  - finish README
