@@ -11,7 +11,9 @@ class TestParkingLot(unittest.TestCase):
         self.example_car_id = 'KA-01-HH-7777'
         self.example_car_colour = 'White'
         self.example_car = Car(self.example_car_id, self.example_car_colour)
-        self.example_different_car = Car(self.example_car_id, 'Black')
+        self.example_different_car_id = 'CA-99-AB-9999'
+        self.example_different_car_colour = 'Black'
+        self.example_slot_num_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
     def test_is_full(self):
         """
@@ -40,6 +42,18 @@ class TestParkingLot(unittest.TestCase):
             returned = parking_lot.is_full()
             self.assertEqual(expected, returned)
 
+    def test_leave_car(self):
+        """
+        test parking_lot.common.parking_lot :: ParkingLot :: leave_car
+        """
+        tests = [self.example_car, 'car', 1, 1.5, int, None]
+        tests_slot_nums = [1, 2, 3, 4, 5, 6]
+        for test, tests_slot_num in zip(tests, tests_slot_nums):
+            parking_lot = self._create_parking_lot()
+            parking_lot._car_list = [test] * self.example_size
+            parking_lot.leave_car(tests_slot_num)
+            self.assertIsNone(parking_lot._car_list[tests_slot_num - 1])
+
     def test_park_car(self):
         """
         test parking_lot.common.parking_lot :: ParkingLot :: park_car
@@ -63,13 +77,76 @@ class TestParkingLot(unittest.TestCase):
         for test in tests:
             parking_lot = self._create_parking_lot()
             parking_lot._car_list = test.get('car_list')
-            parking_lot.park_car(self.example_different_car)
+            parking_lot.park_car(self.example_different_car_id, self.example_different_car_colour)
             spot = test.get('spot')
             if spot is not None:
-                self.assertEqual(self.example_different_car.get_colour(), parking_lot._car_list[spot].get_colour())
+                self.assertEqual(self.example_different_car_id, parking_lot._car_list[spot].get_plate_number())
+                self.assertEqual(self.example_different_car_colour, parking_lot._car_list[spot].get_colour())
             else:
                 for item in parking_lot._car_list:
                     self.assertEqual(self.example_car.get_colour(), item.get_colour())
+
+    def test_registration_numbers_for_cars_with_colour(self):
+        """
+        test parking_lot.common.parking_lot :: ParkingLot :: test_registration_numbers_for_cars_with_colour
+        """
+        tests = [{
+            'element': self.example_car,
+            'color': self.example_car_colour,
+            'returned': [self.example_car_id] * self.example_size,
+        }, {
+            'element': self.example_car,
+            'color': 'Black',
+            'returned': [],
+        }]
+        for test in tests:
+            parking_lot = self._create_parking_lot()
+            parking_lot._car_list = [test.get('element')] * self.example_size
+            expected = test.get('returned')
+            returned = parking_lot.registration_numbers_for_cars_with_colour(test.get('color'))
+            self.assertEqual(expected, returned)
+
+    def test_slot_numbers_for_cars_with_colour(self):
+        """
+        test parking_lot.common.parking_lot :: ParkingLot :: slot_numbers_for_cars_with_colour
+        @return:
+        """
+        tests = [{
+            'element': self.example_car,
+            'color': self.example_car_colour,
+            'returned': self.example_slot_num_list,
+        }, {
+            'element': self.example_car,
+            'color': 'Black',
+            'returned': [],
+        }]
+        for test in tests:
+            parking_lot = self._create_parking_lot()
+            parking_lot._car_list = [test.get('element')] * self.example_size
+            expected = test.get('returned')
+            returned = parking_lot.slot_numbers_for_cars_with_colour(test.get('color'))
+            self.assertEqual(expected, returned)
+
+    def test_slot_number_for_registration_number(self):
+        """
+        test parking_lot.common.parking_lot :: ParkingLot :: slot_number_for_registration_number
+        @return:
+        """
+        tests = [{
+            'element': self.example_car,
+            'reg_num': self.example_car_id,
+            'returned': self.example_slot_num_list,
+        }, {
+            'element': self.example_car,
+            'reg_num': 'AA-BB-CC-DD-EEEE',
+            'returned': [],
+        }]
+        for test in tests:
+            parking_lot = self._create_parking_lot()
+            parking_lot._car_list = [test.get('element')] * self.example_size
+            expected = test.get('returned')
+            returned = parking_lot.slot_number_for_registration_number(test.get('reg_num'))
+            self.assertEqual(expected, returned)
 
     def _create_parking_lot(self):
         return ParkingLot(self.example_size)
